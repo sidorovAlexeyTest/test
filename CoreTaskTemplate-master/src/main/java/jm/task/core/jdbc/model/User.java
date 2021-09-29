@@ -1,11 +1,11 @@
 package jm.task.core.jdbc.model;
 
-import org.hibernate.annotations.Generated;
-
 import javax.persistence.*;
+import java.io.Serializable;
 
-@Table
-public class User {
+@Entity
+@Table(name = "User")
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
