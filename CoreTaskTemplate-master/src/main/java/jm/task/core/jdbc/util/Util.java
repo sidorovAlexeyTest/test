@@ -1,21 +1,32 @@
 package jm.task.core.jdbc.util;
 
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Util {
 
-    private static Connection connection;
+    private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+    private static final String URL = "jdbc:mysql://localhost/test?serverTimezone=UTC&useSSL=false";
+    private static final String USER = "user";
+    private static final String PASSWORD = "password";
 
-    private static String url = "jdbc:mysql://localhost/test?serverTimezone=UTC&useSSL=false";
-    private static String user = "user";
-    private static String password = "password";
-
-    public static Connection getConnection() throws SQLException {
-        if(connection != null) {
-            return connection;
+    static {
+        try {
+            Class.forName(JDBC_DRIVER);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
-        return DriverManager.getConnection(url, user, password);
+    }
+
+    public static Connection getConnection() {
+        Connection connection = null;
+            try {
+                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        return connection;
     }
 }
